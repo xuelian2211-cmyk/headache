@@ -1,602 +1,974 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WCLC 2026 肺癌靶向治疗进展电子刊</title>
-<style>
-:root{
-  --ink:#17212b; --muted:#66727e; --paper:#f7f7f5; --line:#d9dee3;
-  --accent:#176b87; --accent2:#0e4e63; --soft:#e8f0f3; --white:#fff;
-}
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;background:#111;font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC",Arial,sans-serif;color:var(--ink)}
-body{overflow:hidden}
-#book{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center}
-.page{
-  width:min(100vw,133.333333vh);
-  height:min(75vw,100vh);
-  aspect-ratio:4/3;
-  background:var(--paper);
-  position:absolute;
-  overflow:hidden;
-  display:none;
-}
-.page.active{display:block}
-.page:after{content:"";position:absolute;inset:0;pointer-events:none;border:1px solid rgba(0,0,0,.06)}
-.cover{background:#111}
-.cover>img{width:100%;height:100%;object-fit:cover;display:block}
-.cover-fallback{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#fff;font-size:2vw;text-align:center;padding:10%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 WCLC 肺癌免疫治疗关注研究电子期刊</title>
+    <style>
+        :root {
+            --primary-color: #1B4332;   /* 生命绿 */
+            --secondary-color: #2D6A4F; /* 浅生命绿 */
+            --accent-color: #D97706;    /* 琥珀金高亮 */
+            --bg-color: #F8F9FA;        /* 背景灰 */
+            --card-bg: #FFFFFF;        /* 卡片白 */
+            --text-dark: #2B2D42;      /* 主要文字石墨灰 */
+            --text-muted: #6C757D;     /* 辅助文字 */
+            --border-color: #E9ECEF;
+        }
 
-.normal{padding:5.2% 7%}
-.page-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:1.05vw;letter-spacing:.12em;border-bottom:1px solid var(--line);padding-bottom:1.2%}
-.page-head b{font-size:1vw;color:var(--ink)}
-h1{font-size:3vw;line-height:1.15;margin:3.2% 0 3.5%;font-weight:800;letter-spacing:-.03em}
-.section-chip{display:inline-block;padding:.5% 1.2%;font-size:1vw;color:var(--accent);background:var(--soft);border-radius:999px;font-weight:700}
-.part-title{font-size:1.35vw;font-weight:800;margin:1.6% 0 1.2%;padding-bottom:.7%;border-bottom:2px solid var(--accent)}
-.part-title.s{margin-top:2.8%}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-/* 目录页样式 */
-.toc-group{margin:1.2% 0;font-size:1.05vw;line-height:1.55}
-.toc-group>b{display:block;color:var(--accent2);font-size:1.05vw;margin-bottom:.3%}
-.toc-item{display:flex;justify-content:space-between;align-items:center;gap:2%;padding:.25% 0;color:var(--ink);text-decoration:none;transition:color 0.2s}
-.toc-item:hover{color:var(--accent)}
-.toc-item span{font-weight:700;white-space:nowrap;color:var(--muted)}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 70px;
+        }
 
-.foreword{font-size:1.15vw;line-height:1.75;max-width:92%}
-.foreword .lead{font-size:1.35vw;line-height:1.65;font-weight:650;margin-bottom:2.4%;color:var(--accent2)}
-.foreword h3{font-size:1.2vw;margin:2% 0 .6%;color:var(--ink)}
-.foreword p{margin:.5% 0}
-.study{padding:3.6% 5.3% 4.3%}
-.study-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.4%}
-.target{font-size:1.2vw;font-weight:800;letter-spacing:.06em;color:var(--accent)}
-.page-no{font-size:1vw;color:var(--muted);font-weight:700}
-.study-grid{display:grid;grid-template-columns:31% 69%;height:calc(100% - 6%);border-top:1px solid var(--line)}
-.study-meta{padding:3.2% 6% 0 0;border-right:1px solid var(--line);overflow:hidden}
-.eyebrow{font-size:.78vw;letter-spacing:.12em;color:var(--muted);font-weight:700}
-.abstract-no{display:inline-block;margin:3% 0 4%;padding:.55% 2.5%;background:var(--accent);color:#fff;border-radius:999px;font-size:.9vw;font-weight:700}
-.study-meta h2{font-size:1.55vw;line-height:1.3;margin:0 0 5%;letter-spacing:-.02em}
-.meta-label{font-size:.78vw;color:var(--muted);margin-top:4%;margin-bottom:1%}
-.author{font-size:1vw;font-weight:750;line-height:1.4}
-.affiliation{font-size:.9vw;line-height:1.45;color:#43505b}
-.abstract{padding:2.5% 0 0 4.2%;font-size:.91vw;line-height:1.62;overflow:hidden}
-.abstract p{margin:.55% 0 1.1%}
-.abstract h4{font-size:1vw;margin:1.4% 0 .3%;color:var(--accent2)}
-.abstract .meta-line{display:none}
-.abstract.has-figure{
-  position:relative;
-  padding-bottom:18.5%;
-}
-.abstract-figure{
-  position:absolute;
-  left:4.2%;
-  right:0;
-  bottom:0;
-  height:16.5%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  background:transparent;
-}
-.abstract-figure img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-}
-.disclaimer{font-size:1.02vw;line-height:1.85}
-.disclaimer p{margin:1.5% 0}
+        /* 微信/移动端阅读容器 */
+        .journal-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            min-height: 100vh;
+        }
 
-/* 控制栏样式调整：容纳目录按钮 */
-#controls{position:fixed;z-index:20;bottom:2.2vh;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.3rem;padding:.4rem .6rem;background:rgba(20,25,30,.78);backdrop-filter:blur(8px);border-radius:999px;box-shadow:0 6px 25px rgba(0,0,0,.25)}
-#controls button{border:0;background:transparent;color:#fff;cursor:pointer;border-radius:7px;font-size:15px;transition:background 0.2s}
-#controls button:hover{background:rgba(255,255,255,.15)}
-.ctrl-btn{width:32px;height:30px;display:flex;align-items:center;justify-content:center}
-.toc-btn{padding:0 10px;height:30px;font-size:12px;font-weight:600;letter-spacing:1px}
-#counter{color:#fff;font-size:12px;min-width:48px;text-align:center}
-#hint{position:fixed;right:2vw;bottom:2.5vh;color:rgba(255,255,255,.45);font-size:11px;z-index:10}
+        /* 页面显示控制 */
+        .page-section {
+            display: none;
+            padding: 16px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
 
-@media(max-width:900px){
-  .page{width:100vw;height:75vw}
-  .page-head{font-size:1.5vw}.page-head b{font-size:1.4vw}
-  h1{font-size:4vw}.section-chip{font-size:1.4vw}
-  .part-title{font-size:1.8vw}.toc-group{font-size:1.45vw}.toc-group>b{font-size:1.5vw}
-  .foreword{font-size:1.45vw}.foreword .lead{font-size:1.7vw}.foreword h3{font-size:1.55vw}
-  .target{font-size:1.6vw}.page-no{font-size:1.4vw}
-  .eyebrow{font-size:1vw}.abstract-no{font-size:1.2vw}.study-meta h2{font-size:2vw}
-  .meta-label{font-size:1vw}.author{font-size:1.25vw}.affiliation{font-size:1.1vw}
-  .abstract{font-size:1.15vw}.abstract h4{font-size:1.25vw}
-  .disclaimer{font-size:1.3vw}
-}
+        .page-section.active {
+            display: block;
+        }
 
-/* ===== 手机竖版 9:16 ===== */
-.page{
-  width:min(100vw,56.25vh);
-  height:min(177.777778vw,100vh);
-  aspect-ratio:9/16;
-  container-type:inline-size;
-}
-.cover>img{object-fit:cover}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.normal{padding:7cqw 7cqw}
-.page-head{font-size:2.6cqw;padding-bottom:2.2cqw}
-.page-head b{font-size:2.5cqw}
-h1{font-size:7.2cqw;line-height:1.18;margin:5cqw 0 5cqw}
-.section-chip{padding:1.1cqw 2.2cqw;font-size:2.7cqw}
-.part-title{font-size:3.4cqw;margin:3cqw 0 2cqw;padding-bottom:1.2cqw}
-.toc-group{margin:2.4cqw 0;font-size:2.8cqw;line-height:1.55}
-.toc-group>b{font-size:2.9cqw;margin-bottom:.7cqw}
-.foreword{font-size:3.15cqw;line-height:1.72;max-width:100%}
-.foreword .lead{font-size:3.55cqw;line-height:1.62;margin-bottom:4cqw}
-.foreword h3{font-size:3.35cqw;margin:4cqw 0 1.2cqw}
-.foreword p{margin:1.2cqw 0}
+        /* 1. 封面 (16:9 预留图片) */
+        .cover-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
 
-.study{
-  padding:5cqw 6cqw 12cqw;
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-.study::-webkit-scrollbar{display:none}
-.study-top{margin-bottom:3cqw}
-.target{font-size:3.4cqw}
-.page-no{font-size:2.6cqw}
-.study-grid{display:block;height:auto;border-top:1px solid var(--line)}
-.study-meta{padding:4cqw 0 4.5cqw;border-right:0;border-bottom:1px solid var(--line);overflow:visible}
-.eyebrow{font-size:2.25cqw}
-.abstract-no{margin:3cqw 0 3.5cqw;padding:1.2cqw 2.8cqw;font-size:2.6cqw}
-.study-meta h2{font-size:5.2cqw;line-height:1.28;margin:0 0 5cqw}
-.meta-label{font-size:2.35cqw;margin-top:3.5cqw;margin-bottom:1cqw}
-.author{font-size:3.1cqw;line-height:1.4}
-.affiliation{font-size:2.8cqw;line-height:1.5}
-.abstract{padding:5cqw 0 0;font-size:3.0cqw;line-height:1.68;overflow:visible}
-.abstract p{margin:1.3cqw 0 2.2cqw}
-.abstract h4{font-size:3.1cqw;margin:2.2cqw 0 .6cqw}
-.abstract.has-figure{padding-bottom:5cqw}
-.abstract-figure{
-  position:relative;left:auto;right:auto;bottom:auto;
-  width:100%;height:auto;min-height:34cqw;margin-top:4cqw;
-  padding:2cqw;border:1.5px dashed #aeb8c1;background:rgba(232,240,243,.42);
-}
-.abstract-figure img{width:100%;height:auto;max-height:55cqw;object-fit:contain;display:block}
-.disclaimer{font-size:3.0cqw;line-height:1.75}
-.disclaimer p{margin:3cqw 0}
+        .cover-image-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #E0E6ED;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-#controls{bottom:2.2vh}
-#hint{display:none}
+        .cover-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-@media(max-width:600px){
-  .page{width:100vw;height:177.777778vw;max-height:100vh}
-}
-</style>
+        .img-placeholder-text {
+            color: var(--text-muted);
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .cover-content {
+            padding: 20px 16px;
+            text-align: center;
+        }
+
+        .journal-tag {
+            display: inline-block;
+            background: rgba(27, 67, 50, 0.1);
+            color: var(--primary-color);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .cover-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .cover-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .focus-box {
+            background: #F1F8F5;
+            border-left: 4px solid var(--primary-color);
+            padding: 12px;
+            text-align: left;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+        }
+
+        .focus-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .focus-box ul {
+            list-style: none;
+        }
+
+        .focus-box li {
+            position: relative;
+            padding-left: 14px;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+        }
+
+        .focus-box li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* 2. 前言 & 目录页 */
+        .section-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 6px;
+            margin-bottom: 16px;
+        }
+
+        .foreword-card, .toc-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .foreword-card p {
+            font-size: 14px;
+            color: #4A5568;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .toc-group {
+            margin-bottom: 16px;
+        }
+
+        .toc-group-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            background: rgba(45, 106, 79, 0.08);
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 6px;
+            font-size: 13px;
+            border-bottom: 1px dashed var(--border-color);
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .toc-item:active {
+            background: #F1F3F5;
+        }
+
+        /* 3. 内页标准版式 */
+        .article-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+
+        .abstract-no {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #FFF;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .en-title {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-family: Arial, sans-serif;
+            line-height: 1.3;
+        }
+
+        .cn-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .meta-info {
+            background: #F8F9FA;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #495057;
+            margin-bottom: 16px;
+        }
+
+        .meta-info div {
+            margin-bottom: 2px;
+        }
+
+        .abstract-section {
+            margin-bottom: 14px;
+        }
+
+        .abstract-section h5 {
+            font-size: 13px;
+            color: var(--secondary-color);
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .abstract-section p {
+            font-size: 13.5px;
+            color: #2D3748;
+            text-align: justify;
+        }
+
+        /* 预留图表位（16:9 或 自适应高度） */
+        .article-img-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #EDF2F7;
+            border: 2px dashed #CBD5E0;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 16px;
+            padding: 10px;
+        }
+
+        .article-img-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* 4. 封底 */
+        .back-cover {
+            background: var(--primary-color);
+            color: #FFF;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .back-cover h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .back-cover p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .copyright-box {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 15px;
+            font-size: 11px;
+            opacity: 0.6;
+        }
+
+        /* 底部悬浮翻页组件 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: var(--primary-color);
+            color: #FFF;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .nav-btn:disabled {
+            background: #CCC;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* 图片上传交互隐藏按钮（本地预览使用） */
+        .upload-input {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-<div id="book">
 
-<!-- 1. 封面 -->
-<section class="page cover" id="p1">
-  <img src="cover.jpg" alt="封面图片" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-  <div class="cover-fallback">请放置名为 cover.jpg 的封面图片</div>
-</section>
+<div class="journal-container">
 
-<!-- 2. 目录页 -->
-<section class="page normal" id="p2">
-  <div class="page-head"><span>CONTENTS</span><b>P2</b></div>
-  <h1>目录</h1>
-  <div class="toc">
-    <div class="part-title">Part 1｜非小细胞肺癌（NSCLC）</div>
-    <div class="toc-group">
-      <b>EGFR</b>
-      <a href="javascript:show(3)" class="toc-item">EGFR突变NSCLC：术后辅助治疗长期获益持续显现 <span>P4</span></a>
-      <a href="javascript:show(4)" class="toc-item">EGFR Exon 20ins：PAPILLON研究OS结果更新 <span>P5</span></a>
-      <a href="javascript:show(5)" class="toc-item">EGFR Exon 20ins：REZILIENT 3研究探索一线联合治疗 <span>P6</span></a>
+    <!-- PAGE 0: 封面 -->
+    <div class="page-section active" id="page-0">
+        <div class="cover-card">
+            <div class="cover-image-container" onclick="triggerUpload('cover-upload')">
+                <img id="cover-img" src="" alt="封面图片" style="display:none;">
+                <div class="img-placeholder-text" id="cover-placeholder">
+                    🖼️ 封面图预留位 (16 : 9)<br>
+                    <small>点击此处可选择本地图片替换</small>
+                </div>
+            </div>
+            <input type="file" id="cover-upload" class="upload-input" accept="image/*" onchange="previewImage(this, 'cover-img', 'cover-placeholder')">
+
+            <div class="cover-content">
+                <span class="journal-tag">2026 WCLC 特刊</span>
+                <h1 class="cover-title">肺癌免疫治疗关注研究</h1>
+                <p class="cover-subtitle">前沿学术盘点与临床前瞻电子期刊</p>
+
+                <div class="focus-box">
+                    <h4>本期聚焦：</h4>
+                    <ul>
+                        <li>从双/三抗探索下一代免疫检查点</li>
+                        <li>多模式协同：ADC与局部治疗融合</li>
+                        <li>免疫前移：围术期与转化治疗实践</li>
+                        <li>SCLC新赛道：BiTEs与CAR-T前沿突破</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="toc-group">
-      <b>ALK</b>
-      <a href="javascript:show(6)" class="toc-item">ALK阳性NSCLC：新辅助靶向治疗开启围术期探索 <span>P7</span></a>
+
+    <!-- PAGE 1: 前言 -->
+    <div class="page-section" id="page-1">
+        <div class="section-header">前言 / FOREWORD</div>
+        <div class="foreword-card">
+            <p>肺癌是中国发病率和死亡率最高的恶性肿瘤，非小细胞肺癌（NSCLC）是肺癌的主要病理亚型，占所有肺癌病例的 85%～90%。过去二十年，靶向治疗飞速发展，使驱动基因阳性患者获得了前所未有的生存获益。而在 NSCLC 患者中，驱动基因阴性约占 40%～50%；还有对靶向治疗反应不佳的小细胞肺癌（SCLC），其恶性程度高，预后极差；这些患者无法从靶向治疗中获益，传统化疗长期是唯一选择，疗效有限、生存期短、治疗选择匮乏。免疫治疗的崛起，改变了这一局面。</p>
+            <p>以 PD-1/PD-L1 单抗为代表的免疫治疗，通过解除肿瘤对 T 细胞的免疫抑制，重新激活机体抗肿瘤免疫应答。KEYNOTE-189、KEYNOTE-407 等里程碑式研究证实，帕博利珠单抗联合化疗显著延长了转移性 NSCLC 患者的总生存期，将免疫治疗推向晚期肺癌一线治疗的标准地位。</p>
+            <p>随着对免疫逃逸机制理解的深入，双特异性抗体（如 PD-1/VEGF 双抗、PD-L1/4-1BB 双抗、PD-1/CTLA-4 双抗）、免疫联合抗体偶联药物（ADC）、免疫联合局部治疗等新模式不断涌现，旨在克服既有免疫治疗的疗效瓶颈与耐药问题。</p>
+            <p>免疫治疗从晚期向可治愈阶段前移。围术期免疫治疗（新辅助/辅助）在可切除 NSCLC 中展现出显著获益，免疫治疗正在从“延长生存”走向“追求治愈”。</p>
+            <p>免疫治疗不仅显著延长了患者的生存期，更从根本上改变了肺癌的治疗逻辑。然而，免疫治疗仍面临诸多挑战：部分患者原发性耐药，部分患者获得性耐药，免疫相关不良事件的管理，以及如何精准筛选获益人群。因此，持续追踪免疫治疗的最新研究进展，对于优化临床决策、改善患者预后具有不可替代的价值。</p>
+        </div>
     </div>
-    <div class="toc-group">
-      <b>ROS1</b>
-      <a href="javascript:show(7)" class="toc-item">ROS1阳性NSCLC：新一代TKI进一步拓展治疗获益 <span>P8</span></a>
+
+    <!-- PAGE 2: 目录页 -->
+    <div class="page-section" id="page-2">
+        <div class="section-header">目录 / CONTENTS</div>
+        <div class="toc-card">
+            <div class="toc-group">
+                <div class="toc-group-title">Part1：NSCLC - 从PD-1/PD-L1单抗到下一代免疫检查点</div>
+                <div class="toc-item" onclick="goToPage(3)"><span>P1.257: KEYNOTE-189/407 8年随访</span> <span>P.03</span></div>
+                <div class="toc-item" onclick="goToPage(4)"><span>OA14.01: HARMONi-2 OS分析</span> <span>P.04</span></div>
+                <div class="toc-item" onclick="goToPage(5)"><span>OA14.05: HARMONi 长期OS更新</span> <span>P.05</span></div>
+                <div class="toc-item" onclick="goToPage(6)"><span>OA14.04: RC148 (PD-1/VEGF) + 化疗</span> <span>P.06</span></div>
+                <div class="toc-item" onclick="goToPage(7)"><span>MO07.06: Opamtistomig (PD-L1/4-1BB)</span> <span>P.07</span></div>
+                <div class="toc-item" onclick="goToPage(8)"><span>MO07.10: Rilvegostomig (PD-1/TIGIT)</span> <span>P.08</span></div>
+                <div class="toc-item" onclick="goToPage(9)"><span>MO07.07: HC010 (PD-1/VEGF/CTLA-4三抗)</span> <span>P.09</span></div>
+            </div>
+
+            <div class="toc-group">
+                <div class="toc-group-title">Part1：NSCLC - 从免疫联合化疗走向多模式协同</div>
+                <div class="toc-item" onclick="goToPage(10)"><span>PL02.06: EVOKE-03/KEYNOTE D46 (ADC联合)</span> <span>P.10</span></div>
+                <div class="toc-item" onclick="goToPage(11)"><span>OA14.03: LONESTAR 试验 (局部巩固治疗)</span> <span>P.11</span></div>
+            </div>
+
+            <div class="toc-group">
+                <div class="toc-group-title">Part1：NSCLC - 免疫治疗前移，走向可治愈阶段</div>
+                <div class="toc-item" onclick="goToPage(12)"><span>OA04.03: IMpower030 最终分析</span> <span>P.12</span></div>
+                <div class="toc-item" onclick="goToPage(13)"><span>OA04.02: MDT-BRIDGE 试验初步分析</span> <span>P.13</span></div>
+                <div class="toc-item" onclick="goToPage(14)"><span>P1.121: 卡度尼利单抗围术期治疗</span> <span>P.14</span></div>
+                <div class="toc-item" onclick="goToPage(15)"><span>PT1.08.03: 卡度尼利单抗诱导与巩固</span> <span>P.15</span></div>
+                <div class="toc-item" onclick="goToPage(16)"><span>OA09.03: JS207 联合化疗转化治疗</span> <span>P.16</span></div>
+            </div>
+
+            <div class="toc-group">
+                <div class="toc-group-title">Part2：SCLC - 突破传统ICI，进入新赛道</div>
+                <div class="toc-item" onclick="goToPage(17)"><span>OA05.01: DeLLphi-309 塔拉妥单抗给药方案</span> <span>P.17</span></div>
+                <div class="toc-item" onclick="goToPage(18)"><span>OA05.02: LB2102 DLL3 CAR-T 疗法</span> <span>P.18</span></div>
+            </div>
+        </div>
     </div>
-    <div class="toc-group">
-      <b>HER2</b>
-      <a href="javascript:show(8)" class="toc-item">HER2突变NSCLC：ADC进入一线治疗探索 <span>P9</span></a>
+
+    <!-- PAGE 3: 研究 1 (P1.257) -->
+    <div class="page-section" id="page-3">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：P1.257</span>
+            <div class="en-title">Pembrolizumab Plus Chemotherapy for Metastatic Non-Small-Cell Lung Cancer: 8-Year Follow-Up From KEYNOTE-189 and KEYNOTE-407</div>
+            <div class="cn-title">帕博利珠单抗+化疗治疗转移性非小细胞肺癌：KEYNOTE-189与KEYNOTE-407的8年随访结果</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> M.C. Garassino</div>
+                <div><strong>单位：</strong> University of Chicago Medicine, 美国</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Introduction</h5>
+                <p>免疫检查点抑制剂改变了转移性非小细胞肺癌（NSCLC）的治疗格局。Ⅲ期 KEYNOTE-189 与 KEYNOTE-407 分别证实了帕博利珠单抗联合化疗一线治疗非鳞与鳞状转移性 NSCLC 的生存获益。本次报告 9 年和 8 年随访结局。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Methods</h5>
+                <p>KEYNOTE-189 按 2:1、KEYNOTE-407 按 1:1 分组，接受帕博利珠单抗 200mg 或安慰剂 Q3W 联合化疗，最多 35 周期。研究结束后可转入 KEYNOTE-587 长期随访。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>截至 2025年11月10日，KEYNOTE-189 8年 OS 率为 16.1% vs 6.2%（HR=0.62）；KEYNOTE-407 8年 OS 率为 11.6% vs 7.1%（HR=0.74）。生存获益持续维持。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>中位随访分别达 9 年和 8 年后，帕博利珠单抗联合化疗在转移性 NSCLC 患者中仍持续带来持久且具有临床意义的生存获益。</p>
+            </div>
+
+            <!-- 图表预留位 1 -->
+            <div class="article-img-placeholder" onclick="triggerUpload('img-upload-1')">
+                <img id="article-img-1" src="" style="display:none;">
+                <div id="article-img-text-1" class="img-placeholder-text">📊 数据图表预留位 (Table 1)<br><small>点击替换本页图片</small></div>
+            </div>
+            <input type="file" id="img-upload-1" class="upload-input" accept="image/*" onchange="previewImage(this, 'article-img-1', 'article-img-text-1')">
+        </div>
     </div>
-    <div class="toc-group">
-      <b>KRAS</b>
-      <a href="javascript:show(9)" class="toc-item">KRAS G12C：新辅助靶向治疗探索持续推进 <span>P10</span></a>
-      <a href="javascript:show(10)" class="toc-item">KRAS G12D：新靶点药物开启精准治疗新方向 <span>P11</span></a>
+
+    <!-- PAGE 4: 研究 2 (OA14.01) -->
+    <div class="page-section" id="page-4">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：OA14.01</span>
+            <div class="en-title">Overall Survival Analysis From HARMONi-2: Ivonescimab vs Pembrolizumab as First-Line Treatment for PD-L1-Positive NSCLC</div>
+            <div class="cn-title">HARMONi-2 研究的总生存期分析：依沃西单抗对比帕博利珠单抗一线治疗PD-L1阳性NSCLC</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> 周彩存</div>
+                <div><strong>单位：</strong> 同济大学附属上海市肺科医院</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Introduction</h5>
+                <p>依沃西单抗是全球首创 PD-1/VEGF 双特异性抗体。3期 HARMONi-2 既往显示突破性 PFS 获益（11.1 vs 5.8个月, HR=0.51）。此次报告关键次要终点 OS 结果。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Methods</h5>
+                <p>初治、PD-L1阳性（TPS≥1%）、无 EGFR/ALK 突变晚期 NSCLC 1:1 随机接受依沃西单抗（20mg/kg）或帕博利珠单抗（200mg）单药 Q3W 治疗。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>截至 2026年8月20日，依沃西单抗对比帕博利珠单抗中位 OS 分别为 30.75个月 vs 22.57个月（HR=0.73, P=0.009）。各亚组获益一致，安全性相当。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>依沃西单抗一线治疗 PD-L1 阳性晚期 NSCLC 相比帕博利珠单抗显著延长 OS，支持其作为一线无化疗方案的新标准。</p>
+            </div>
+        </div>
     </div>
-    <div class="part-title s">Part 2｜小细胞肺癌（SCLC）</div>
-    <div class="toc-group">
-      <b>DLL3</b>
-      <a href="javascript:show(11)" class="toc-item">DLL3靶向双特异性抗体：持续改善复发SCLC治疗格局 <span>P12</span></a>
-      <a href="javascript:show(12)" class="toc-item">DLL3靶向CAR-T：细胞治疗探索进一步深入 <span>P13</span></a>
+
+    <!-- PAGE 5: 研究 3 (OA14.05) -->
+    <div class="page-section" id="page-5">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：OA14.05</span>
+            <div class="en-title">Ivonescimab-Chemo vs Placebo-Chemo in EGFR-TKI-Resistant, EGFR-Mutated NSCLC (HARMONi): Updated Overall Survival Analysis</div>
+            <div class="cn-title">依沃西单抗+化疗对比安慰剂+化疗治疗EGFR-TKI耐药的EGFR突变NSCLC（HARMONi）：更新的总生存分析</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> A. Passaro</div>
+                <div><strong>单位：</strong> European Institute of Oncology IRCCS, 意大利</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Introduction</h5>
+                <p>HARMONi 是评估依沃西单抗联合化疗用于三代 EGFR-TKI 耐药后 EGFR 突变 NSCLC 的全球 Ⅲ 期研究。本次报告西方队列延长随访后的长期 OS 分析。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>ITT 人群中位随访 29.9 个月，依沃西单抗组对比安慰剂组中位 OS 为 16.8 个月 vs 14.0 个月（HR=0.76, P=0.0151）。西方队列中位 OS 为 17.5 vs 14.0 个月。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>依沃西单抗联合化疗在 ITT 人群及不同地域间展现出持续且持久的 OS 获益，安全性可控。</p>
+            </div>
+        </div>
     </div>
-    <div class="toc-group">
-      <b>B7-H3</b>
-      <a href="javascript:show(13)" class="toc-item">B7-H3 ADC：TAISHAN-302研究取得积极结果 <span>P14</span></a>
-      <a href="javascript:show(14)" class="toc-item">B7-H3 ADC：ARTEMIS-008进一步验证治疗潜力 <span>P15</span></a>
+
+    <!-- PAGE 6: 研究 4 (OA14.04) -->
+    <div class="page-section" id="page-6">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：OA14.04</span>
+            <div class="en-title">RC148 (ABBV-1480, PD-1/VEGF Bispecific Antibody) Plus Chemotherapy in First-Line Locally Advanced or Metastatic NSCLC</div>
+            <div class="cn-title">RC148（ABBV-1480，PD-1/VEGF双特异性抗体）联合化疗一线治疗局部晚期或转移性NSCLC</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> 赵媛媛</div>
+                <div><strong>单位：</strong> 中山大学肿瘤防治中心</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>队列1（sq-NSCLC）10mg/kg组 ORR 达 90.0%，PD-L1阴性者 ORR 达 93.3%，中位 PFS 为 10.8 个月。队列2（nsq-NSCLC）10mg/kg组 ORR 为 75.9%。安全性良好。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>RC148 联合化疗一线治疗 NSCLC 显示出强劲且不受 PD-L1 表达影响的抗肿瘤活性，10mg/kg 被确定为 Ⅲ 期推荐剂量。</p>
+            </div>
+
+            <!-- 图表预留位 2 -->
+            <div class="article-img-placeholder" onclick="triggerUpload('img-upload-2')">
+                <img id="article-img-2" src="" style="display:none;">
+                <div id="article-img-text-2" class="img-placeholder-text">📊 数据图表预留位 (Table 1 Clinical Efficacy Data)<br><small>点击替换本页图片</small></div>
+            </div>
+            <input type="file" id="img-upload-2" class="upload-input" accept="image/*" onchange="previewImage(this, 'article-img-2', 'article-img-text-2')">
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- 3. 前言页 -->
-<section class="page normal" id="p3"><div class="page-head"><span>OVERVIEW</span><b>P3</b></div><div class="section-chip">前言</div><h1>靶向治疗：从单一靶点突破走向全程重构</h1><div class="foreword">
-<div class="lead">所呈现的一个重要趋势是：NSCLC靶向治疗正在从单药突破走向全程重构。从围术期治疗前移，到晚期治疗不断优化，再到耐药后的策略，不同靶点正在形成更加完整的治疗链条。</div>
-<h3>从治疗阶段看，靶向治疗正在前移。</h3>
-<p>靶向药的价值已不再局限于晚期疾病控制，EGFR、ALK、KRAS等驱动基因阳性NSCLC的研究不断向围术期拓展。术后辅助治疗、新辅助治疗以及围术期全程管理，正在成为靶向治疗新的重要应用场景。</p>
-<h3>从药物开发看，核心目标从有效进一步转向更深、更久、更广。</h3>
-<p>一方面，新一代TKI和ADC不断提高肿瘤控制深度，并加强对脑转移等特殊部位的控制；另一方面，针对不同耐药机制开发的新药，以及双特异性抗体、ADC等新型治疗模式，为既往难以解决的耐药问题提供了新的治疗路径。</p>
-<h3>从分子亚型看，精准治疗进一步细分。</h3>
-<p>EGFR、ALK、ROS1、HER2、KRAS等不同驱动基因亚型正在形成各自更加明确的治疗路径。与此同时，KRAS等过去治疗选择有限的靶点进入快速扩展阶段，靶点覆盖范围持续扩大。</p>
-<h3>从临床决策看，“靶点阳性”正在成为全程管理的起点，而非终点。</h3>
-<p>未来的精准治疗不仅需要回答“使用哪一种药物”，还需要综合考虑疾病分期、分子特征、既往治疗、耐药机制、CNS受累以及患者个体状态，在不同治疗阶段选择最合适的治疗策略。</p>
-</div></section>
+    <!-- PAGE 7: 研究 5 (MO07.06) -->
+    <div class="page-section" id="page-7">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：MO07.06</span>
+            <div class="en-title">Phase II Study of Opamtistomig (LBL-024), a PD-L1/4-1BB Bispecific Antibody Plus Chemotherapy in First-Line Advanced NSCLC</div>
+            <div class="cn-title">PD-L1/4-1BB双特异性抗体Opamtistomig（LBL-024）联合化疗一线治疗晚期NSCLC的Ⅱ期研究</div>
 
-<!-- 4. P4研究页 -->
-<section class="page study" id="p4">
-  <div class="study-top">
-    <div class="target">EGFR</div>
-    <div class="page-no">P4</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">PL03.01</div>
-      <h2>ADAURA：术后辅助奥希替尼的长期生存获益</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Roy S. Herbst</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Yale Cancer Center / Yale School of Medicine，美国</div>
-    </aside>
-    <article class="abstract">
-      <p>Introduction：在全球III期、双盲、随机ADAURA研究（NCT02511106）中，术后辅助osimertinib与安慰剂相比，在完全切除的EGFR突变IB–IIIA期非小细胞肺癌（NSCLC）患者中显著改善无病生存期（DFS；风险比[HR] 0.20；P&lt;0.001）和总生存期（OS；HR 0.49；P&lt;0.001；osimertinib组和安慰剂组的中位随访时间分别为60.4个月和59.4个月）。术后辅助osimertinib治疗3年已成为该治疗场景的标准治疗，并已显示出具有临床意义的获益；进一步随访将有助于进一步明确完成辅助治疗后的长期生存获益。本研究报告ADAURA长期OS的事后探索性分析结果。</p>
-      <p>Methods：共682例符合条件的患者（≥18岁；中国台湾和日本≥20岁），WHO体能状态评分为0/1分，均为完全切除的EGFR突变IB–IIIA期（美国癌症联合委员会[AJCC]第7版）NSCLC患者；允许接受辅助化疗。患者按1:1随机接受每日一次osimertinib（80 mg；n=339）或安慰剂（n=343），直至疾病复发、完成治疗（3年）或符合其他停药标准。主要终点为研究者评估的DFS，评价人群为II–IIIA期NSCLC患者。OS为次要终点。在本探索性分析中，对于截至计划中的最终OS分析数据截止日（DCO，2023年1月27日）仍存活的患者（n=558），通过年度随访获得截至本次DCO（2026年5月4日）的更新生存数据；对于计划最终OS分析DCO之后、根据最后一次联系日期获得的可获取记录/信息，也纳入分析（n=431）。对于无法获得额外长期OS数据的患者，其删失时间仍为最后一次确认存活日期，生存时间维持计划最终OS分析DCO（2023年1月27日）时的数值（n=127）。所有患者均已获得完成3年辅助研究治疗的机会。本次探索性长期OS分析纳入所有随机患者。采用Kaplan-Meier方法估算中位OS和8年OS率，并采用分层log-rank统计方法估计HR及95%置信区间（CI）。DCO：2026年5月4日。</p>
-      <p>Results：在II–IIIA期疾病患者（主要分析人群）中，OS HR为0.53（95% CI 0.38–0.75；142/470例发生事件）；osimertinib组与安慰剂组的8年OS率（95% CI）分别为74%（67–80）和58%（50–65），提高16个百分点；OS中位随访时间分别为92.0个月和68.5个月。在总体人群（IB–IIIA期）中，OS HR为0.52（95% CI 0.39–0.71；175/682例发生事件）；osimertinib组与安慰剂组的8年OS率（95% CI）分别为79%（74–83）和64%（58–70），提高15个百分点；OS中位随访时间分别为93.3个月和79.6个月。osimertinib的OS获益在预设的各亚组中均得到观察。</p>
-      <p>Conclusions：本次ADAURA探索性分析报告了目前EGFR突变NSCLC辅助治疗领域全球III期研究中最长的OS随访结果。这些新增的长期结果进一步明确了术后辅助osimertinib在完全切除EGFR突变IB–IIIA期NSCLC患者中的既定生存获益，无论患者是否接受辅助化疗。</p>
-    </article>
-  </div>
-</section>
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> 黄岩</div>
+                <div><strong>单位：</strong> 中山大学肿瘤防治中心</div>
+            </div>
 
-<!-- 5. P5研究页 -->
-<section class="page study" id="p5">
-  <div class="study-top">
-    <div class="target">EGFR Exon 20ins</div>
-    <div class="page-no">P5</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">PL03.03</div>
-      <h2>PAPILLON：一线amivantamab联合化疗进一步延长OS</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Chul Kim</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Georgetown University / Georgetown Cancer Institute，美国</div>
-    </aside>
-    <article class="abstract">
-      <p>Introduction：EGFR外显子20插入突变（Ex20ins）约占EGFR突变NSCLC的12%。既往真实世界数据显示，Ex20ins晚期NSCLC患者的总生存期（OS）为16.2–24.3个月。基于amivantamab的联合方案已获批用于EGFR突变NSCLC的多种治疗适应证。在III期PAPILLON研究（NCT04538664；中位随访时间：14.9个月）中，一线amivantamab联合卡铂-培美曲塞（amivantamab-化疗）与化疗相比，在Ex20ins晚期NSCLC患者中显著改善了盲法独立中心审评（BICR）评估的中位无进展生存期（PFS）（11.4个月 vs 6.7个月；HR 0.40；95% CI 0.30–0.53；P&lt;0.001）（Zhou，NEJM，2023）。本研究报告PAPILLON研究中amivantamab-化疗与化疗相比的方案规定最终OS分析结果。</p>
-      <p>Methods：既往未经治疗的Ex20ins晚期NSCLC患者按1:1随机接受amivantamab-化疗（n=153）或化疗（n=155）。在BICR确认疾病进展后，允许化疗组按照研究方案交叉接受二线amivantamab单药治疗。OS为关键次要终点。方案规定的最终OS分析预计在两组累计约210例死亡后进行，统计效能约为56%，用于检测具有统计学意义的差异。采用Kaplan-Meier方法估算OS中位数，并采用分层Cox回归模型估计HR及相应的95% CI。方案预先规定了校正交叉治疗影响的OS分析。</p>
-      <p>Results：截至临床数据截止日（2026年3月20日），amivantamab-化疗组仍有12%的患者接受治疗，而化疗组无患者继续接受治疗。化疗组中有128例患者因疾病进展而停药，其中97例（76%）接受了二线amivantamab单药治疗（87例按照方案接受，10例方案外接受）。中位随访时间为48.6个月时，尽管化疗组中76%的患者后续接受了amivantamab治疗，amivantamab-化疗组和化疗组的中位OS分别为34.3个月（95% CI 27.0–40.8）和27.9个月（95% CI 24.0–32.4）。amivantamab-化疗使中位OS延长超过6个月，死亡风险降低13%（HR 0.87；95% CI 0.66–1.14；P=0.307）。在预设各亚组中，OS结果总体均倾向于amivantamab-化疗。采用方案预先规定的逆概率删失加权模型校正方案内交叉治疗后，化疗组估计中位OS为22.1个月（95% CI 16.4–27.6），amivantamab-化疗的OS获益进一步提高（HR 0.57；95% CI 0.39–0.82；名义P=0.003）。静脉给予amivantamab-化疗的安全性特征与既往在优化预防措施实施前静脉amivantamab治疗中的报告一致。患者报告结局更倾向于amivantamab-化疗，在多个关键症状量表中观察到症状恶化时间延长。</p>
-      <p>Conclusions：PAPILLON研究中，一线amivantamab-化疗治疗Ex20ins晚期NSCLC患者所报告的中位OS为目前最长。尽管化疗组有大量（76%）患者后续接受amivantamab治疗，amivantamab-化疗相比化疗仍使OS具有临床意义地延长6个月（34.3个月 vs 27.9个月）。由于交叉治疗可能削弱基于HR的OS估计结果，校正后的OS分析显示出更为显著的估计生存获益，支持amivantamab-化疗作为Ex20ins晚期NSCLC患者基础性一线治疗方案。</p>
-    </article>
-  </div>
-</section>
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>60 例疗效可评估患者中，总 ORR 为 65.0%（非鳞 51.7%，鳞癌 77.4%）。PD-L1 TPS≥1% 患者 ORR 为 78.3%。安全性总体可控。</p>
+            </div>
 
-<!-- 6. P6研究页 -->
-<section class="page study" id="p6">
-  <div class="study-top">
-    <div class="target">EGFR Exon 20ins</div>
-    <div class="page-no">P6</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">PL03.04</div>
-      <h2>REZILIENT 3：zipalertinib联合化疗改善一线PFS</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Daniel S.-W. Tan</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Duke-NUS Medical School / National Cancer Centre Singapore，新加坡</div>
-    </aside>
-    <article class="abstract has-figure">
-      <p>Introduction：Zipalertinib是一种新型EGFR抑制剂，在既往接受治疗的EGFR外显子20插入突变（ex20ins）晚期非小细胞肺癌（NSCLC）患者中已显示出活性。相关证据提示，联合化疗可能进一步延长EGFR-TKI治疗的获益。</p>
-      <p>Methods：在这项国际性、随机对照、开放标签III期研究中，EGFR ex20ins晚期NSCLC患者既往未接受晚期疾病治疗，按1:1随机接受铂类-培美曲塞化疗联合或不联合zipalertinib 100 mg、每日两次（BID）。允许纳入未经治疗且无症状、脑转移病灶≤2 cm的患者。主要终点为盲法独立中心审评（BICR）评估的无进展生存期（PFS）。次要终点包括客观缓解率（ORR）、缓解持续时间（DoR）、安全性和总生存期（OS）。单纯化疗组患者在疾病进展后可交叉接受zipalertinib治疗。预先规定在达到75%的目标PFS事件后进行中期疗效分析。</p>
-      <p>Results：共279例患者随机接受zipalertinib联合化疗（n=140）或单纯化疗（n=139）。两组基线特征总体均衡，包括年龄（66.5岁 vs 64岁）、性别（女性65.7% vs 63.3%）以及脑转移（31.4% vs 31.7%）。在预先计划的疗效分析中，共发生122例PFS事件，zipalertinib联合治疗使中位PFS显著长于单纯化疗（14.5个月 vs 8.5个月；HR 0.50；95% CI 0.34–0.73；P=0.00015，见图1）。这一PFS获益在各亚组中均保持一致，包括脑转移患者（HR 0.38）。联合治疗的ORR显著更高（65.0% vs 40.3%，P&lt;0.0001），中位DoR也更长（14.2个月 vs 9.9个月）。在OS中期分析时（成熟度30%），zipalertinib联合化疗与化疗相比的死亡HR为0.72（95% CI 0.42–1.23）。zipalertinib联合化疗的观察到的不良事件（AE）特征总体与两种单药已知的安全性特征一致。尽管联合治疗组≥3级AE发生率更高（87.1% vs 54.4%），但主要为可管理的血液学事件（58.6% vs 28.7%）。≥3级EGFR相关毒性发生率较低，且仅见于联合治疗组，包括皮疹（10.7%）和腹泻（1.4%）。</p>
-      <p>Conclusions：在EGFR ex20ins晚期NSCLC患者的一线治疗中，在铂类化疗基础上加入zipalertinib，使PFS具有统计学显著且临床意义的6.0个月改善。未观察到新的安全性信号。REZILIENT 3仍在继续随访，以进一步明确OS获益及探索性终点（ClinicalTrials.gov编号：NCT05973773）。</p>
-      <div class="abstract-figure"><img src="images/p6.jpg" alt="p6.jpg研究图表"></div>
-    </article>
-  </div>
-</section>
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>Opamtistomig 兼具免疫解除与共刺激激活双重机制，联合化疗在晚期 NSCLC 展现出令人鼓舞的早期疗效。</p>
+            </div>
 
-<!-- 7. P7研究页 -->
-<section class="page study" id="p7">
-  <div class="study-top">
-    <div class="target">ALK</div>
-    <div class="page-no">P7</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">MO06.01</div>
-      <h2>NAUTIKA1：ALK阳性NSCLC的新辅助alectinib</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Jin M. Lee</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Memorial Sloan Kettering Cancer Center，美国</div>
-    </aside>
-    <article class="abstract has-figure">
-      <p>Introduction：Alectinib已在全球获批用于完全切除的IB–IIIB期（AJCC第8版）ALK阳性非小细胞肺癌（NSCLC）患者的辅助治疗。然而，该人群中新辅助使用alectinib的数据仍十分有限。NAUTIKA1（NCT04302025）是一项针对生物标志物筛选的可切除NSCLC患者、评估多种治疗方案的II期伞式研究。此前曾报告ALK阳性队列（n=33）的初步数据。本次报告完整ALK阳性队列（N=48）的病理学、新辅助临床及手术结果，以及新辅助治疗后的结局。</p>
-      <p>Methods：符合条件的患者年龄≥18岁，为IB–IIIB期（仅T3N2）ALK阳性NSCLC，ECOG PS为0/1。患者接受新辅助alectinib（600 mg，每日两次[BID]）治疗8周，随后接受手术；可选择接受铂类化疗（≤4个周期），之后接受辅助alectinib（600 mg BID）治疗2年。主要终点为主要病理缓解（MPR；残留活肿瘤细胞≤10%）。次要终点包括病理完全缓解（pCR）、影像学缓解、降期、无事件生存期（EFS）、无病生存期（DFS）、总生存期（OS）、新辅助治疗期间ctDNA清除状态及安全性。</p>
-      <p>Results：截至2026年2月9日的数据快照，患者入组已经完成（N=48；见表）。43例可评估患者中，24例（55.8%）达到MPR，8例（18.6%）达到pCR（见图）。45例患者中有27例（60.0%）观察到影像学客观缓解。45例患者中有17例（37.8%）发生临床降期，其中14例（31.1%）降期至ypN0。中位随访20.8个月时，2年EFS率为94%，2年DFS率为96%，2年OS率为97%。42例接受手术的患者中，40例（95%）实现R0切除。共突变及ctDNA数据仍在评估中。新辅助alectinib耐受性良好，未观察到新的安全性信号。</p>
-      <p>Conclusions：NAUTIKA1的初步分析显示，新辅助alectinib可带来具有临床意义的MPR、pCR和客观缓解率，且未出现新的安全性信号。对于可切除IB–IIIB期ALK阳性NSCLC，新辅助alectinib是一种具有前景的治疗方案，可纳入围术期治疗策略。</p>
-      <div class="abstract-figure"><img src="images/p7.jpg" alt="p7.jpg研究图表"></div>
-    </article>
-  </div>
-</section>
+            <div class="article-img-placeholder" onclick="triggerUpload('img-upload-3')">
+                <img id="article-img-3" src="" style="display:none;">
+                <div id="article-img-text-3" class="img-placeholder-text">📊 数据图表预留位 (Table 1 Objective Tumor Response)<br><small>点击替换本页图片</small></div>
+            </div>
+            <input type="file" id="img-upload-3" class="upload-input" accept="image/*" onchange="previewImage(this, 'article-img-3', 'article-img-text-3')">
+        </div>
+    </div>
 
-<!-- 8. P8研究页 -->
-<section class="page study" id="p8">
-  <div class="study-top">
-    <div class="target">ROS1</div>
-    <div class="page-no">P8</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">PL03.06</div>
-      <h2>ARROS-1：TKI初治ROS1阳性NSCLC的zidesamtinib</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Alexander Drilon</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Memorial Sloan Kettering Cancer Center，美国</div>
-    </aside>
-    <article class="abstract has-figure">
-      <p>Introduction：Zidesamtinib已获批用于既往接受过ROS1激酶抑制剂治疗的局部晚期或转移性ROS1阳性NSCLC成人患者。本研究报告ARROS-1研究中zidesamtinib用于TKI初治晚期/转移性ROS1阳性NSCLC患者的研究结果。</p>
-      <p>Methods：全球性、单臂、首次人体I/II期ARROS-1研究（NCT05118789）包括一个II期队列，纳入局部晚期或转移性ROS1阳性NSCLC、既往未接受TKI治疗的患者；允许既往接受最多一线化疗和/或免疫治疗。关键研究终点包括由盲法独立中心审评（BICR）根据RECIST 1.1评估的客观缓解率（ORR）、缓解持续时间（DOR）、无进展生存期（PFS）、颅内客观缓解率（IC-ORR）和安全性。疗效分析纳入具有BICR确认可测量疾病、并于2025年6月15日前开始接受zidesamtinib 100 mg每日一次（QD）治疗的TKI初治患者。数据截止日：2026年4月16日。</p>
-      <p>Results：共532例ROS1阳性NSCLC患者在各治疗线次接受zidesamtinib 100 mg QD治疗，其中183例为TKI初治患者。在疗效可评估的TKI初治患者（n=94）中，27%既往接受过化疗，17%既往接受过免疫治疗，17%根据BICR评估存在基线CNS转移。疗效结果见表。ORR为93%（87/94），9个月DOR率为94%，12个月DOR率为86%。IC-ORR为100%（10/10；其中颅内完全缓解[IC-CR]率为70%），9个月IC-DOR率为100%，12个月IC-DOR率为78%。在全部532例患者中，发生率≥15%的治疗相关不良事件（TRAEs）包括：外周水肿（各级34%；≥3级0.6%）、体重增加（各级18%；≥3级4%）、血肌酸磷酸激酶升高（各级18%；≥3级3%）、味觉障碍（各级17%；≥3级0%）和天冬氨酸氨基转移酶升高（各级15%；≥3级1%）。TRAEs导致11%的患者减量，1%的患者停药。</p>
-      <p>Conclusions：在ARROS-1研究中，zidesamtinib在TKI初治ROS1阳性NSCLC患者中表现出具有临床意义的活性。其安全性特征与既往报告一致，减量和停药发生率较低。这些数据支持进一步探索zidesamtinib在更早治疗线次中的应用。</p>
-      <div class="abstract-figure"><img src="images/p8.jpg" alt="p8.jpg研究图表"></div>
-    </article>
-  </div>
-</section>
+    <!-- PAGE 8: 研究 6 (MO07.10) -->
+    <div class="page-section" id="page-8">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：MO07.10</span>
+            <div class="en-title">Updated Efficacy Results of Rilvegostomig for Checkpoint Inhibitor (CPI)-NaïVe Metastatic Non-Small-Cell Lung Cancer (mNSCLC)</div>
+            <div class="cn-title">Rilvegostomig治疗未经检查点抑制剂（CPI）治疗的转移性非小细胞肺癌（mNSCLC）的更新疗效结果</div>
 
-<!-- 9. P9研究页 -->
-<section class="page study" id="p9">
-  <div class="study-top">
-    <div class="target">HER2</div>
-    <div class="page-no">P9</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">PL03.08</div>
-      <h2>DESTINY-Lung04：HER2突变NSCLC一线T-DXd</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Julia Rotow</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Dana-Farber Cancer Institute，美国</div>
-    </aside>
-    <article class="abstract has-figure">
-      <p>Introduction：HER2突变NSCLC是一种侵袭性疾病，预后较差；许多患者对一线标准治疗（SOC）免疫治疗联合化疗（chemo）无应答，凸显了这一人群对HER2靶向治疗方案的需求。DESTINY-Lung04评价T-DXd（一种HER2靶向ADC）作为一线治疗，与帕博利珠单抗（pembro）联合化疗相比，在HER2突变晚期/转移性NSCLC中的疗效。</p>
-      <p>Methods：DESTINY-Lung04（NCT05048797）是一项全球性、开放标签、随机、注册性III期研究，纳入既往未经治疗、不可切除局部晚期或转移性HER2突变（外显子19或20）NSCLC患者。患者按1:1随机接受T-DXd 5.4 mg/kg静脉给药、每3周一次（Q3W），或pembro 200 mg静脉给药Q3W联合铂类化疗〔顺铂75 mg/m²或卡铂AUC 5，静脉给药Q3W〕及培美曲塞500 mg/m²静脉给药Q3W。分层因素包括吸烟状态以及脑转移的存在/既往史。主要终点为根据RECIST 1.1、由BICR评估的PFS。次要终点包括OS、ORR、缓解持续时间（DOR）和安全性。</p>
-      <p>Results：截至2026年6月9日，共454例患者在各治疗组随机分组。T-DXd组和pembro+化疗组的中位（范围）随访时间分别为21.6个月（0.4–51.1）和20.4个月（0.1–52.0）。与pembro+化疗相比，T-DXd显著改善PFS：中位PFS（95% CI）分别为14.3个月（12.4–16.5）和8.3个月（7.0–9.9）；HR（95% CI）为0.63（0.50–0.79），P&lt;0.0001，即PFS改善6个月。T-DXd组和pembro+化疗组的ORR（95% CI）分别为70.0%（63.6–75.9）和44.5%（37.9–51.2），比值比（OR；95% CI）为2.93（2.00–4.34）；中位DOR（95% CI）分别为13.4个月（10.4–17.2）和9.7个月（7.0–11.1）。中位OS（95% CI）分别为29.3个月（26.2–33.4）和33.1个月（27.7–40.7），HR（95% CI）为1.15（0.88–1.52）；后续治疗主要包括HER2靶向治疗和基于免疫治疗的方案，两组之间存在不均衡。安全性结果见表。经判定的药物相关间质性肺病（ILD）/肺炎在T-DXd组47例患者（20.8%）中发生，其中大多数为1/2级（78.7%）；pembro+化疗组5例患者（2.3%）发生，均为1/2级。</p>
-      <p>Conclusions：这是首项全球III期研究，证实在HER2突变晚期/转移性NSCLC患者中，一线T-DXd相较标准治疗pembro+化疗能够在PFS方面取得具有统计学显著性和临床意义的改善。与pembro+化疗相比，T-DXd提高了缓解率并延长了缓解持续时间。两组后续治疗的不平衡影响了OS结果的解释。安全性总体与T-DXd已知的安全性特征一致。这些结果支持T-DXd成为HER2突变晚期/转移性NSCLC的一线新治疗选择。</p>
-      <div class="abstract-figure"><img src="images/p9.jpg" alt="p9.jpg研究图表"></div>
-    </article>
-  </div>
-</section>
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> B.C. Cho</div>
+                <div><strong>单位：</strong> Yonsei Cancer Center, 韩国</div>
+            </div>
 
-<!-- 10. P10研究页 -->
-<section class="page study" id="p10">
-  <div class="study-top">
-    <div class="target">KRAS G12C</div>
-    <div class="page-no">P10</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">OA04.04</div>
-      <h2>NAUTIKA1：divarasib开启KRAS G12C围术期探索</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Jamie Chaft</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Memorial Sloan Kettering Cancer Center，美国</div>
-    </aside>
-    <article class="abstract has-figure">
-      <p>Introduction：II期NAUTIKA1研究（NCT04302025）的首批结果提示，新一代口服KRAS G12C抑制剂divarasib用于可切除早期KRAS G12C阳性NSCLC患者的新辅助治疗具有可管理的安全性和有前景的抗肿瘤活性。本研究报告该队列的更新数据。</p>
-      <p>Methods：年龄≥18岁、AJCC第8版分期为IB–IIIB期（仅T3N2）、KRAS G12C阳性NSCLC患者接受新辅助divarasib（400 mg，每日一次）治疗8周，随后接受手术。切除后，PD-L1肿瘤细胞（TC）&lt;1%的患者接受辅助化疗后继续divarasib最长3年、divarasib单药最长3年或标准治疗；PD-L1 TC≥1%的患者接受辅助化疗后联合atezolizumab，或接受标准治疗。主要终点为新辅助divarasib的安全性和可行性。次要终点包括主要病理缓解（MPR）、病理完全缓解（pCR）、影像学客观缓解率（ORR）、淋巴结降期以及辅助divarasib的安全性。探索性分析包括不同共突变（TP53、STK11、KEAP1）状态下的缓解情况。</p>
-      <p>Results：截至2026年2月9日，共入组20例患者（入组截止日期：2025年9月24日）并接受新辅助divarasib治疗；中位年龄70岁，55%的患者为III期疾病。19例患者接受了手术，1例患者退出手术；14例患者接受了辅助治疗，其中5例接受辅助divarasib。没有患者因不良事件（AE）而发生手术延迟。新辅助divarasib治疗期间最常见的AE为腹泻（80%）、恶心（75%）和便秘（35%）；大多数AE为1–2级，没有患者因AE而停药。辅助divarasib期间最常见的AE为腹泻（80%，4/5），且没有患者因AE而停药. MPR达到42%，16%的患者达到pCR。影像学ORR为55%。临床降期发生率为40%（8/20），病理学淋巴结降期发生率为37%（7/19），其中32%（6/19）降期至N0。所有接受手术的患者均实现原发肿瘤R0切除，且未发生术中并发症。</p>
-      <p>Conclusions：NAUTIKA1的更新数据显示，divarasib单药作为可切除早期KRAS G12C阳性NSCLC的新辅助治疗具有可行性，安全性可管理，并显示出有前景的抗肿瘤活性。Divarasib在辅助治疗阶段同样表现出可管理的安全性。未来将在III期Krascendo 3研究中进一步探索divarasib用于早期可切除NSCLC。</p>
-      <div class="abstract-figure"><img src="images/p10.jpg" alt="p10.jpg研究图表"></div>
-    </article>
-  </div>
-</section>
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>PD-L1 TPS≥50% 队列确认 ORR 为 61.8%，中位 PFS 延长至 16.7 个月，24 个月 OS 率达 67.6%。单细胞组学证实其免疫激活机制。</p>
+            </div>
 
-<!-- 11. P11研究页 -->
-<section class="page study" id="p11">
-  <div class="study-top">
-    <div class="target">KRAS G12D</div>
-    <div class="page-no">P11</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">OA12.01</div>
-      <h2>GFH375：晚期KRAS G12D突变NSCLC的疗效与安全性</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">李子明 等</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">上海市胸科医院</div>
-    </aside>
-    <article class="abstract">
-      <p>Introduction：KRAS G12D突变约发生于4%的非小细胞肺癌（NSCLC）病例中，并与较差预后相关。GFH375是一种正在临床开发中的高效、高选择性、口服生物利用度良好的KRAS G12D（ON/OFF）抑制剂，已在NSCLC、胰腺导管腺癌及其他肿瘤等晚期实体瘤患者中显示出令人鼓舞的抗肿瘤疗效。本研究报告I/II期研究（NCT06500676）中接受GFH375推荐II期剂量（600 mg，每日一次）治疗的NSCLC患者的疗效、安全性及生物标志物数据。</p>
-      <p>Methods：入组既往治疗失败的晚期KRAS G12D突变NSCLC患者，在I期扩展部分和II期部分接受GFH375 600 mg每日一次（QD）治疗。II期研究的主要终点为根据实体瘤疗效评价标准（RECIST）v1.1评估的客观缓解率（ORR）。次要终点包括缓解持续时间（DoR）、疾病控制率（DCR）、无进展生存期（PFS）、安全性和总生存期（OS）。</p>
-      <p>Results：截至2025年10月31日，共入组57例NSCLC患者，其中66.7%为男性，中位年龄62岁。所有患者基线时均为转移性疾病，54例（94.7%）为腺癌，27例（47.4%）为从不吸烟者，50例（87.7%）基线ECOG体能状态为1分。39例患者有基线PD-L1 TPS数据，其中TPS&lt;1%、1%–49%和≥50%的患者分别为19例（48.7%）、13例（33.3%）和7例（17.9%）。24例（42.1%）患者既往接受过至少2线全身治疗。所有患者均既往接受过抗PD-1/PD-L1治疗和铂类化疗。截至2026年3月31日，最短随访时间为5.0个月。在53例至少接受过一次治疗后肿瘤评估的患者中，ORR为54.7%（95% CI：42.6%–66.5%）；确认ORR为49.1%（95% CI：37.1%–61.1%），中位DoR为11.0个月（95% CI：5.6–未达到）；DCR为90.6%（95% CI：81.2%–96.2%）。中位PFS和OS分别为8.1个月和15.4个月。≥3级治疗相关不良事件（TRAEs）和严重不良事件分别发生于33.3%和17.5%的患者。1例患者（1.8%）因TRAEs停药，12例（21.1%）因TRAEs减量，18例（31.6%）因TRAEs中断治疗。发生率≥20%的最常见TRAEs包括腹泻、呕吐、恶心、天冬氨酸氨基转移酶升高、高甘油三酯血症、丙氨酸氨基转移酶升高、贫血、中性粒细胞计数降低、低钠血症、蛋白尿、食欲下降、白细胞计数降低、淀粉酶升高和低白蛋白血症，主要为1或2级。在55例接受基线ctDNA检测的患者中，32例（58.2%）可检测到KRAS G12D突变。最常见的共改变基因为TP53（41.8%）、BCL2L11（20.0%）、STK11（16.4%）、KEAP1（10.9%）和CDKN2A（10.9%）。大会将进一步报告约75例患者的更新数据，这些患者的最短随访时间超过4个月，同时还将报告基于基线肿瘤组织NGS分析以及配对基线/治疗结束ctDNA样本获得的遗传共改变分析。</p>
-      <p>Conclusions：GFH375在KRAS G12D突变NSCLC患者中显示出令人信服的临床疗效，同时具有可耐受的安全性特征，值得进一步开展临床开发。</p>
-    </article>
-  </div>
-</section>
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>PD-1/TIGIT 双抗 Rilvegostomig 带来持久的 PFS 延长与良好的 OS 信号，支持多项 Ⅲ 期研究开展。</p>
+            </div>
+        </div>
+    </div>
 
-<!-- 12. P12研究页 -->
-<section class="page study" id="p12">
-  <div class="study-top">
-    <div class="target">DLL3</div>
-    <div class="page-no">P12</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">OA05.01</div>
-      <h2>Tarlatamab：延长给药间隔方案的DeLLphi-309研究</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Jonathan Goldman</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">UCLA / David Geffen School of Medicine，美国</div>
-    </aside>
-    <article class="abstract has-figure">
-      <p>Introduction：Tarlatamab每2周给药一次、每次10 mg（10mg-Q2W）时，在既往接受治疗的小细胞肺癌（SCLC）患者中显示出优于化疗的总生存期（OS）。II期DeLLphi-309研究（NCT06745323）评价tarlatamab延长给药间隔方案，即每3周20 mg（20mg-Q3W）和每4周30 mg（30mg-Q4W），在SCLC患者中的疗效、安全性和药代动力学（PK）。</p>
-      <p>Methods：一线铂类化疗后出现疾病进展/复发的SCLC成人患者，在接受1 mg阶梯递增给药后，随机接受静脉tarlatamab 10mg-Q2W、20mg-Q3W或30mg-Q4W治疗。主要终点为由盲法独立中心审评（BICR）确定的确认客观缓解率（ORR）。次要终点包括PK、安全性、OS、研究者评估的ORR，以及由BICR和研究者分别评估的缓解持续时间（DOR）、疾病控制和无进展生存期（PFS）。研究未预先设定正式的统计学假设，结果采用描述性方式呈现。</p>
-      <p>Results：截至2026年5月7日，共252例患者随机接受10mg-Q2W（n=83）、20mg-Q3W（n=84）或30mg-Q4W（n=85）治疗。三组基线特征总体均衡，但30mg-Q4W组男性患者、年龄≥65岁患者、ECOG PS 1分患者以及肝转移患者比例较高。经BICR确认的ORR，在10mg-Q2W、20mg-Q3W和30mg-Q4W方案中分别为40%（95% CI 29–51）、31%（21–42）和27%（18–38）。10mg-Q2W和20mg-Q3W方案的中位DOR分别为8.3个月和5.6个月，30mg-Q4W方案尚无法估算中位DOR（10mg-Q2W和20mg-Q3W方案中位随访7.0个月，30mg-Q4W方案为8.3个月）。研究者评估的ORR分别为36%、37%和31%。经BICR评估的中位PFS分别为4.2、4.1和2.7个月。6个月OS率分别为72%、85%和69%；中位OS尚无法估算（三组中位随访时间约9个月）。治疗期间出现的不良事件和治疗相关不良事件发生率在各给药方案之间相似。治疗相关细胞因子释放综合征（CRS）发生于60%–70%的患者，且主要为1–2级；各方案任意级免疫效应细胞相关神经毒性综合征（ICANS）发生率为6%–12%。稳态谷浓度（Ctrough）几何均值在各方案之间相近，10mg-Q2W、20mg-Q3W和30mg-Q4W分别为0.425、0.406和0.383 μg/mL。</p>
-      <p>Conclusions：延长给药间隔的20mg-Q3W和30mg-Q4W方案在疗效、安全性和PK方面总体与已获批的10mg-Q2W方案一致，并可能为SCLC患者提供更加灵活的治疗选择。这项前瞻性研究表明，双特异性T细胞衔接器可以通过替代给药方案获得与既定方案相一致的治疗结果。</p>
-      <div class="abstract-figure"><img src="images/p12.jpg" alt="p12.jpg研究图表"></div>
-    </article>
-  </div>
-</section>
+    <!-- PAGE 9: 研究 7 (MO07.07) -->
+    <div class="page-section" id="page-9">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：MO07.07</span>
+            <div class="en-title">First-in-Human Study of HC010, a Novel PD-1/VEGF/CTLA-4 Trispecific Antibody: Preliminary Results</div>
+            <div class="cn-title">新型PD-1/VEGF/CTLA-4三特异性抗体HC010的首项人体研究：初步结果</div>
 
-<!-- 13. P13研究页 -->
-<section class="page study" id="p13">
-  <div class="study-top">
-    <div class="target">DLL3</div>
-    <div class="page-no">P13</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">OA05.02</div>
-      <h2>LB2102：dnTGFBR2装甲DLL3靶向CAR-T</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Alberto Chiappori 等</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Moffitt Cancer Center</div>
-    </aside>
-    <article class="abstract">
-      <p>Introduction：Delta样配体3（DLL3）是小细胞肺癌（SCLC）及其他神经内分泌肿瘤中一个具有前景的治疗靶点。本研究报告LB2102剂量递增研究结果。LB2102是一种靶向DLL3、并通过装载显性负性TGF-β受体（dnTGFBR2）进行改造的自体CAR-T细胞治疗产品，旨在克服免疫抑制性肿瘤微环境（NCT05680922）。</p>
-      <p>Methods：这是一项开放标签、多中心I期研究，评价LB2102用于既往接受≥1线治疗后复发或难治的SCLC或大细胞神经内分泌癌（LCNEC）患者。剂量递增采用i3+3设计，剂量水平（DL）分别为0.3、1.0、2.0、4.0、8.0、12.0和16.0×10^6 CAR+ T细胞/kg。患者在接受标准淋巴清除治疗后，单次输注LB2102。主要研究目标为评价安全性和耐受性，并确定推荐II期剂量。</p>
-      <p>Results：截至2026年3月2日，共20例患者接受LB2102治疗（DL1–DL5各3例；DL6根据剂量递增委员会决定跳过；DL7为5例）。其中17例为SCLC，3例为LCNEC；14例（70%）既往有脑转移史。中位年龄为56.5岁（范围20–73岁），既往治疗线数中位数为1.5线（范围1–7线）；95%的患者在单采与LB2102治疗之间接受了桥接治疗。15例患者（75%）出现与LB2102输注相关的AE，其中9例（45%）为≥3级，大多数与淋巴清除方案相关，包括贫血和白细胞减少。6例患者（30%）发生细胞因子释放综合征（CRS；4例1级，2例2级）。3例患者（15%）发生ICANS，均出现在DL7，其中2例为1级，1例为3级。未发生剂量限制性毒性（DLT），也未发生治疗期间AE相关死亡。其他≥3级的非血液学LB2102相关AE包括AST升高、C反应蛋白升高、呼吸困难、QT间期延长和低氧血症，各1例。根据RECIST 1.1标准，最佳总体疗效包括4例部分缓解（PR：DL3和DL4各1例，DL7为2例）和10例疾病稳定（SD：DL2–DL7）。客观缓解率（ORR）为4/20（20%），疾病控制率（DCR）为14/20（70%）。中位缓解持续时间尚未达到；其中2例缓解持续超过6个月，另有2例仍处于持续缓解状态，截尾时间约为1个月。在SCLC患者中，接受≥2×10^6 CAR-T细胞/kg剂量后，ORR为4/12（33%），DCR为10/12（83%）。DL3及以上剂量水平的所有患者均观察到CAR-T细胞扩增（通过qPCR测定）。在DL7（n=4）中，中位最大血药浓度（Cmax）为2851 copies/μg gDNA，达到最大血药浓度的时间（Tmax）为6天。在各剂量水平中，PR患者的PK暴露量（中位Cmax）相较SD或PD患者相对更高。输注前较低的淋巴细胞计数（P=0.04）和第1天较高的IL-15水平（P=0.02）与更好的临床缓解相关。总体而言，在可评估的17例患者中，13例（76%）基线DLL3表达&gt;90%。</p>
-      <p>Conclusions：LB2102耐受性良好，未发生DLT，CRS和ICANS均可管理。研究观察到一致的CAR-T细胞扩增以及令人鼓舞的抗肿瘤活性。尽管较高剂量水平与更好的临床缓解相关，但不同患者之间存在差异。目前正在进行的转化研究将进一步阐明影响疗效的决定因素。</p>
-    </article>
-  </div>
-</section>
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> 马宇翔</div>
+                <div><strong>单位：</strong> 中山大学肿瘤防治中心</div>
+            </div>
 
-<!-- 14. P14研究页 -->
-<section class="page study" id="p14">
-  <div class="study-top">
-    <div class="target">B7-H3</div>
-    <div class="page-no">P14</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">PL02.03</div>
-      <h2>TAISHAN-302：Tam-Peli对比拓扑替康</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Li Zhang</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Sun Yat-sen University Cancer Center，中国</div>
-    </aside>
-    <article class="abstract">
-      <p>Introduction：复发性小细胞肺癌（SCLC）仍是一种高度侵袭性疾病，在一线免疫治疗联合铂类化疗后治疗选择有限，且预后较差。拓扑替康长期以来一直是标准二线治疗方案之一，但其生存获益仍较为有限。Tambotatug pelitecan（Tam-Peli，YL201）是一种新型抗B7-H3抗体偶联药物（ADC），在复发SCLC的临床前研究及I/II期研究中已显示出有前景的活性。本III期研究评价Tam-Peli与拓扑替康作为复发SCLC二线治疗的疗效和安全性。</p>
-      <p>Methods：符合条件的患者为一线治疗后复发的成人SCLC患者，ECOG体能状态为0或1分，基线存在可测量病灶。患者按1:1随机接受Tam-Peli（2.0 mg/kg，静脉给药，每3周一个周期的第1天给药，最大剂量200 mg）或按照说明书给予拓扑替康，直至疾病进展或出现不可耐受毒性。随机分层因素包括疾病分期（局限期或广泛期）、脑转移（有或无）以及无化疗间隔（CTFI；&lt;90天或≥90天）。主要终点为总生存期（OS）。关键次要终点包括研究者评估的无进展生存期（PFS）和客观缓解率（ORR），并采用固定序列法进行层级检验。</p>
-      <p>Results：共451例患者随机接受Tam-Peli（n=225）或拓扑替康（n=226）治疗。两组基线特征均衡。截至2026年5月20日，中位随访时间为9.4个月，Tam-Peli与拓扑替康相比，OS获得具有统计学显著性和临床意义的改善。Tam-Peli组与拓扑替康组的中位OS分别为13.3个月（95% CI：12.1–NE）和9.4个月（95% CI：7.7–10.5），分层HR为0.46（95% CI：0.35–0.62；P&lt;0.0001）。OS获益在预设亚组中均保持一致，包括脑转移患者（HR 0.43）、肝转移患者（HR 0.34）以及CTFI&lt;90天患者（HR 0.44）。研究同时达到PFS和ORR两个关键次要终点。Tam-Peli组与拓扑替康组的中位PFS分别为7.4个月（95% CI：6.1–7.6）和2.8个月（95% CI：1.8–3.0），分层HR为0.29（95% CI：0.23–0.37；P&lt;0.0001）。ORR分别为59.1%（95% CI：52.4–65.6%）和9.7%（95% CI：6.2–14.4%），P&lt;0.0001。Tam-Peli的安全性特征可管理，与其已知安全性特征一致，未发现新的安全性信号。Tam-Peli组和拓扑替康组≥3级治疗相关不良事件（TRAEs）发生率分别为46.4%和74.7%，Tam-Peli组未发生治疗相关死亡。治疗期间出现的间质性肺病/肺炎事件在Tam-Peli组和拓扑替康组中的发生率分别为4.9%和1.4%；两组3级事件发生率均为0.9%，未报告4级或5级事件。</p>
-      <p>Conclusions：TAISHAN-302是首项证实ADC在复发SCLC中相较拓扑替康能够带来具有统计学显著性和临床意义的OS、PFS和ORR改善的III期研究，且无论基线转移状态或CTFI如何，均观察到获益。结合总体有利且可管理的安全性特征，这些结果支持Tam-Peli成为SCLC潜在的新标准治疗选择，并可能重塑这一治疗困难疾病的治疗格局。</p>
-    </article>
-  </div>
-</section>
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>在 12 例免疫治疗难治性 NSCLC 患者亚组中，HC010 单药治疗实现 ORR 25%，DCR 75%。耐受性良好，未达到 MTD。</p>
+            </div>
 
-<!-- 15. P15研究页 -->
-<section class="page study" id="p15">
-  <div class="study-top">
-    <div class="target">B7-H3</div>
-    <div class="page-no">P15</div>
-  </div>
-  <div class="study-grid">
-    <aside class="study-meta">
-      <div class="eyebrow"> · ABSTRACT</div>
-      <div class="abstract-no">PL02.04</div>
-      <h2>ARTEMIS-008：Ris-Rez对比拓扑替康</h2>
-      <div class="meta-label">主要作者 / 报告者</div>
-      <div class="author">Jie Wang</div>
-      <div class="meta-label">单位</div>
-      <div class="affiliation">Cancer Hospital, Chinese Academy of Medical Sciences，中国</div>
-    </aside>
-    <article class="abstract">
-      <p>Introduction：Risvutatug Rezetecan（Ris-Rez，HS-20093/GSK5764227）是一种B7-H3靶向抗体偶联药物（ADC），以拓扑异构酶I抑制剂作为有效载荷。在一项I期研究中，该药用于既往接受治疗的小细胞肺癌（SCLC）患者时显示出令人鼓舞的抗肿瘤活性。本研究报告III期ARTEMIS-008研究的主要结果，该研究评价Ris-Rez与拓扑替康用于铂类化疗期间及之后出现疾病进展的复发SCLC患者的疗效。</p>
-      <p>Methods：ARTEMIS-008（NCT06498479）是一项多中心、开放标签、随机III期研究。符合条件的患者按1:1随机接受Ris-Rez 8.0 mg/kg、每3周一次（Q3W），或拓扑替康1.2 mg/m²，于每3周周期的第1–5天给药。随机分层因素包括无化疗间隔、脑转移以及入组时疾病分期。主要终点为总生存期（OS）。关键次要终点包括无进展生存期（PFS）、客观缓解率（ORR）、疾病控制率（DCR）和安全性。疗效和安全性分析分别采用意向治疗分析集和安全性分析集。</p>
-      <p>Results：截至2026年6月6日的数据截止日，共461例中国患者随机接受Ris-Rez（n=230）或拓扑替康（n=231）治疗，其中80.9%的患者既往接受过PD-(L)1抑制剂治疗。中位随访时间为12.2个月。Ris-Rez组患者的OS显著长于拓扑替康组，中位OS分别为18.5个月和10.3个月，HR为0.46（95% CI：0.35–0.62；P&lt;0.0001）。在所有相关亚组中均观察到一致的OS获益。根据盲法独立中心审评（BICR），PFS（中位PFS：7.2个月 vs 3.0个月；HR 0.33 [95% CI：0.25–0.42]）、ORR（58.3% vs 12.6%）和DCR（90.4% vs 60.2%）均有利于Ris-Rez。研究者评估结果与BICR结果一致。≥3级治疗相关不良事件（TRAEs）在Ris-Rez组的发生率低于拓扑替康组（60.9% vs 78.2%）。最常见的≥3级TRAEs为血液学毒性，包括中性粒细胞计数降低（Ris-Rez vs 拓扑替康：27.0% vs 40.7%）、白细胞计数降低（24.3% vs 32.4%）、贫血（17.4% vs 25.0%）、淋巴细胞计数降低（16.1% vs 10.2%）以及血小板计数降低（13.9% vs 59.7%）。</p>
-      <p>Conclusions：Ris-Rez 8.0 mg/kg Q3W在铂类治疗后进展的SCLC患者中，相较拓扑替康带来了具有统计学显著性和临床意义的OS获益，并具有有利的安全性特征。这些结果提示Ris-Rez有潜力成为复发SCLC新的标准治疗方案。</p>
-    </article>
-  </div>
-</section>
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>HC010 创新三抗机制在 IO 耐药实体瘤中展示出极具吸引力的抗肿瘤活性信号。</p>
+            </div>
 
-<!-- 16. 免责声明页 -->
-<section class="page normal disclaimer" id="p16">
-  <div class="page-head"><span>DISCLAIMER</span><b>P16</b></div>
-  <div class="section-chip">免责声明</div>
-  <h1>免责声明</h1>
-  <p>本资料旨在基于公开的学术会议资料，对肺癌领域相关研究进展进行整理与学术信息分享，仅供医疗卫生专业人士进行学术交流与参考，不构成任何形式的医疗建议、诊疗建议或用药推荐。</p>
-  <p>本资料所涉及的研究数据、结论及观点主要来源于大会公开资料及相关研究信息。部分研究尚处于临床研究阶段，其疗效、安全性及临床获益仍需结合完整研究结果及后续随访进一步评估。研究结果不应直接外推至所有患者或作为个体化治疗决策的唯一依据。</p>
-  <p>药品的适应证、用法用量、禁忌证、注意事项及安全性信息应以国家药品监管部门批准的药品说明书及当地适用的相关法规和指南为准。临床治疗决策应由具有相应资质的医疗专业人员根据患者具体情况作出。</p>
-  <p>本资料内容仅代表对公开信息的整理与解读，不代表相关研究者、研究机构、药品生产企业或其他相关方的立场或观点。由于学术会议资料及研究结果可能持续更新，本资料中的信息亦可能发生变化，请以最新、正式发布的研究论文及官方资料为准。</p>
-  <p>本资料仅用于非商业性的学术交流与信息分享。未经相关权利人许可，不应对其中受版权保护的内容进行复制、传播、修改或用于其他用途。</p>
-</section>
+            <div class="article-img-placeholder" onclick="triggerUpload('img-upload-4')">
+                <img id="article-img-4" src="" style="display:none;">
+                <div id="article-img-text-4" class="img-placeholder-text">📊 数据图表预留位 (Table 1 Efficacy Results)<br><small>点击替换本页图片</small></div>
+            </div>
+            <input type="file" id="img-upload-4" class="upload-input" accept="image/*" onchange="previewImage(this, 'article-img-4', 'article-img-text-4')">
+        </div>
+    </div>
+
+    <!-- PAGE 10: 研究 8 (PL02.06) -->
+    <div class="page-section" id="page-10">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：PL02.06</span>
+            <div class="en-title">Primary Results from Phase 3 EVOKE-03/KEYNOTE D46: Sacituzumab Govitecan + Pembrolizumab in PD-L1 TPS ≥50% Metastatic NSCLC</div>
+            <div class="cn-title">EVOKE-03/KEYNOTE D46 Ⅲ期研究的初步结果：戈沙妥珠单抗联合帕博利珠单抗一线治疗PD-L1 TPS≥50%转移性NSCLC</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> G. Mountzios</div>
+                <div><strong>单位：</strong> Henry Dunant Hospital Center, 希腊</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>Trop-2 ADC 联合 K 药组中位 PFS 较单药延长（11.8 vs 7.7 个月，HR=0.81, P=0.0252，未达预设统计学显著）；中位 OS 为 21.5 vs 22.8 个月。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>组合方案 PFS 数值改善但未达显著差异，安全性特征与单药重叠已知毒性一致。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 11: 研究 9 (OA14.03) -->
+    <div class="page-section" id="page-11">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：OA14.03</span>
+            <div class="en-title">Clinical Outcomes of the Phase III Lonestar Trial: Local Consolidation Therapy After Nivolumab Plus Ipilimumab in NSCLC</div>
+            <div class="cn-title">Ⅲ期LONESTAR试验的临床结果：纳武利尤单抗+伊匹木单抗治疗NSCLC后的局部巩固治疗</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> M. Altan</div>
+                <div><strong>单位：</strong> MD Anderson Cancer Center, 美国</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>双免诱导后加用局部巩固治疗（LCT）具有可行性，但在未经筛选的总体及寡转移人群中，未进一步改善 OS 或 PFS。</p>
+            </div>
+
+            <div class="article-img-placeholder" onclick="triggerUpload('img-upload-5')">
+                <img id="article-img-5" src="" style="display:none;">
+                <div id="article-img-text-5" class="img-placeholder-text">📊 数据图表预留位 (Survival Curves A & B)<br><small>点击替换本页图片</small></div>
+            </div>
+            <input type="file" id="img-upload-5" class="upload-input" accept="image/*" onchange="previewImage(this, 'article-img-5', 'article-img-text-5')">
+        </div>
+    </div>
+
+    <!-- PAGE 12: 研究 10 (OA04.03) -->
+    <div class="page-section" id="page-12">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：OA04.03</span>
+            <div class="en-title">Final Analysis of the Phase 3 IMpower030 Study: Perioperative Atezolizumab + Chemotherapy in Resectable Stage II-IIIB NSCLC</div>
+            <div class="cn-title">Ⅲ期IMpower030研究的最终分析：阿替利珠单抗+化疗围术期治疗可切除Ⅱ-ⅢB期NSCLC</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> B. Solomon</div>
+                <div><strong>单位：</strong> Peter MacCallum Cancer Center, 澳大利亚</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>阿替利珠单抗围术期组中位 EFS 达到 62.8 个月 vs 34.9 个月（HR=0.77），pCR 率 29.6% vs 8.5%，MPR 率 53.6% vs 24.4%。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>围术期阿替利珠单抗联合化疗展现出深远的病理缓解与长时间 EFS 获益趋势。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 13: 研究 11 (OA04.02) -->
+    <div class="page-section" id="page-13">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：OA04.02</span>
+            <div class="en-title">Neoadjuvant Durvalumab + Chemotherapy for Resectable/Borderline Resectable Stage IIB-IIIB NSCLC: MDT-BRIDGE Primary Analysis</div>
+            <div class="cn-title">度伐利尤单抗+化疗新辅助治疗可切除/临界可切除ⅡB-ⅢB期NSCLC：MDT-BRIDGE试验初步分析</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> M. Reck</div>
+                <div><strong>单位：</strong> Lung Clinic Großhansdorf, 德国</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>多学科 MDT 评估下，总体切除率达 74.6%（R0 切除率 96.2%），新辅助后评估可切除者的 pCR 率为 27.3%，12 个月 EFS 率达 90.1%。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>密切 MDT 随访配合度伐利尤单抗新辅助治疗成功实现了高根治性切除转化率。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 14: 研究 12 (P1.121) -->
+    <div class="page-section" id="page-14">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：P1.121</span>
+            <div class="en-title">Perioperative Cadonilimab and Chemotherapy in Stage II-IIIA Non-Small-Cell Lung Cancer: Primary Analysis of a Phase 2 Study</div>
+            <div class="cn-title">卡度尼利单抗+化疗围术期治疗Ⅱ-ⅢA期NSCLC：Ⅱ期试验的初步分析</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> 王慧娟</div>
+                <div><strong>单位：</strong> 河南省肿瘤医院 / 郑州大学附属肿瘤医院</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>PD-1/CTLA-4 双抗卡度尼利单抗联合化疗新辅助治疗实现 pCR 率 28.9%，MPR 率 52.6%，ORR 63.2%。无手术相关并发症。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>围术期卡度尼利单抗双抗方案获得了优异的病理缓解，且不增加手术风险。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 15: 研究 13 (PT1.08.03) -->
+    <div class="page-section" id="page-15">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：PT1.08.03</span>
+            <div class="en-title">Cadonilimab Induction and Consolidation for Unresectable Stage III NSCLC Receiving Concurrent Chemoradiation: A Phase 2 Trial</div>
+            <div class="cn-title">卡度尼利单抗诱导和巩固接受同步放化疗的不可切除III期NSCLC：一项2期试验</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> 储黎</div>
+                <div><strong>单位：</strong> 复旦大学附属肿瘤医院</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>mITT 人群 1 年 PFS 率达 69.2%，巩固治疗人群 1 年 PFS 率达 65.0%，ORR 85.4%，DCR 100%。肺炎发生率可控。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>卡度尼利单抗诱导及巩固治疗不可切除 Ⅲ 期 NSCLC 效果显著，打破传统 PACIFIC 瓶颈。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 16: 研究 14 (OA09.03) -->
+    <div class="page-section" id="page-16">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：OA09.03</span>
+            <div class="en-title">A Phase 2 Study of JS207, a PD-1/VEGF Bispecific Antibody, Plus Chemotherapy in Patients With Unresectable Stage III NSCLC</div>
+            <div class="cn-title">PD-1/VEGF双特异性抗体JS207联合化疗治疗不可切除III期NSCLC的II期研究</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> 吴一龙</div>
+                <div><strong>单位：</strong> 广东省人民医院</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>52.4% 的不可切除 Ⅲ 期患者在 JS207 联合化疗新辅助后成功转化为手术；手术患者 pCR 率达 54.5%，MPR 率达 72.7%。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>JS207 展示了突破性的降期转化切除能力与病理完全缓解率。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 17: 研究 15 (OA05.01) -->
+    <div class="page-section" id="page-17">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：OA05.01</span>
+            <div class="en-title">Tarlatamab Extended-Interval Dosing Regimens in Patients With SCLC: The Randomized Phase 2 DeLLphi-309 Study</div>
+            <div class="cn-title">塔拉妥单抗延长间隔给药方案治疗SCLC患者：随机2期DeLLphi-309研究</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> J. Goldman</div>
+                <div><strong>单位：</strong> University of California Los Angeles, 美国</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>DLL3/CD3 BiTE 塔拉妥单抗 20mg Q3W 与 30mg Q4W 延长方案 ORR 分别为 31% 和 27%，疗效与 PK 暴露量与 Q2W 标准方案一致。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>延长给药间隔方案疗效与安全性稳定，为 SCLC 患者提供了极大的便捷性。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 18: 研究 16 (OA05.02) -->
+    <div class="page-section" id="page-18">
+        <div class="article-card">
+            <span class="abstract-no">摘要号：OA05.02</span>
+            <div class="en-title">Phase 1 Study of LB2102, a dnTGFBR2-armored DLL3-targeted Autologous CAR-T Cell Therapy, in Subjects With Relapsed or Refractory SCLC or LCNEC</div>
+            <div class="cn-title">LB2102（一种经dnTGFBR2增强靶向DLL3的自体CAR-T细胞疗法）治疗复发或难治性SCLC或LCNEC的I期研究</div>
+
+            <div class="meta-info">
+                <div><strong>主要研究者：</strong> A. Chiappori</div>
+                <div><strong>单位：</strong> Moffitt Cancer Center, 美国</div>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Results</h5>
+                <p>装载抗 TGF-β 铠甲的 CAR-T LB2102 在 SCLC 高剂量组 ORR 为 33%，DCR 83%。CRS 与 ICANS 安全可控，扩增良好。</p>
+            </div>
+
+            <div class="abstract-section">
+                <h5>Conclusions</h5>
+                <p>LB2102 突破了实体瘤微环境抑制，在 R/R SCLC 展现了坚实的细胞治疗潜力。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 19: 封底 -->
+    <div class="page-section" id="page-19">
+        <div class="back-cover">
+            <h3>2026 WCLC 免疫治疗精选特刊</h3>
+            <p>追求治愈 · 探索无界<br>感谢您的阅读与支持</p>
+
+            <div class="copyright-box">
+                <p>版权所有 © 2026 肺癌免疫治疗学术编辑部</p>
+                <p>本特刊仅供医学专业人士学术交流参考</p>
+            </div>
+        </div>
+    </div>
 
 </div>
-<div id="controls">
-  <button id="prev" class="ctrl-btn" aria-label="上一页">‹</button>
-  <button id="to-toc" class="toc-btn" onclick="show(1)">目录</button>
-  <span id="counter">P1 / 16</span>
-  <button id="next" class="ctrl-btn" aria-label="下一页">›</button>
+
+<!-- 底部翻页控制器 -->
+<div class="bottom-nav">
+    <button class="nav-btn" id="prev-btn" onclick="changePage(-1)">上一页</button>
+    <div class="page-indicator" id="page-indicator">Cover / 19</div>
+    <button class="nav-btn" id="next-btn" onclick="changePage(1)">下一页</button>
 </div>
-<div id="hint">← → 翻页 · Home / End · F 全屏</div>
 
 <script>
-const pages=[...document.querySelectorAll('.page')];
-let current=0;
-function show(n){
-  current=Math.max(0,Math.min(pages.length-1,n));
-  pages.forEach((p,i)=>p.classList.toggle('active',i===current));
-  document.getElementById('counter').textContent=`P${current+1} / ${pages.length}`;
-  history.replaceState(null,'',`#p${current+1}`);
-}
-function next(){show(current+1)}
-function prev(){show(current-1)}
-document.getElementById('next').onclick=next;
-document.getElementById('prev').onclick=prev;
-document.addEventListener('keydown',e=>{
-  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();next()}
-  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev()}
-  if(e.key==='Home'){e.preventDefault();show(0)}
-  if(e.key==='End'){e.preventDefault();show(pages.length-1)}
-  if(e.key.toLowerCase()==='f'){
-    if(!document.fullscreenElement) document.documentElement.requestFullscreen?.();
-    else document.exitFullscreen?.();
-  }
-});
-let sx=null;
-document.addEventListener('touchstart',e=>sx=e.changedTouches[0].screenX,{passive:true});
-document.addEventListener('touchend',e=>{
-  if(sx===null)return;
-  const dx=e.changedTouches[0].screenX-sx;
-  if(Math.abs(dx)>45) dx<0?next():prev();
-  sx=null;
-},{passive:true});
-const hash=location.hash.match(/p(\d+)/i);
-show(hash?parseInt(hash[1],10)-1:0);
+    let currentPage = 0;
+    const totalPages = 20; // 0 到 19
+
+    function updatePageDisplay() {
+        document.querySelectorAll('.page-section').forEach((el, index) => {
+            if (index === currentPage) {
+                el.classList.add('active');
+            } else {
+                el.classList.remove('active');
+            }
+        });
+
+        // 更新底栏指示
+        const indicator = document.getElementById('page-indicator');
+        if (currentPage === 0) indicator.innerText = '封面';
+        else if (currentPage === 1) indicator.innerText = '前言';
+        else if (currentPage === 2) indicator.innerText = '目录';
+        else if (currentPage === 19) indicator.innerText = '封底';
+        else indicator.innerText = `P.${currentPage - 2} / 16`;
+
+        // 按钮状态
+        document.getElementById('prev-btn').disabled = currentPage === 0;
+        document.getElementById('next-btn').disabled = currentPage === totalPages - 1;
+
+        window.scrollTo(0, 0);
+    }
+
+    function changePage(delta) {
+        if (currentPage + delta >= 0 && currentPage + delta < totalPages) {
+            currentPage += delta;
+            updatePageDisplay();
+        }
+    }
+
+    function goToPage(pageNum) {
+        currentPage = pageNum;
+        updatePageDisplay();
+    }
+
+    // 图片上传 preview 脚本（便于本地测试展示）
+    function triggerUpload(id) {
+        document.getElementById(id).click();
+    }
+
+    function previewImage(input, imgId, textId) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById(imgId);
+                img.src = e.target.result;
+                img.style.display = 'block';
+                if(textId) document.getElementById(textId).style.display = 'none';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // 初始化显示
+    updatePageDisplay();
 </script>
 </body>
 </html>
